@@ -1,5 +1,7 @@
+@extends('layouts.app')
+@section('title', 'Detalhes - Lanchonete Delícia')
+
 @section('content')
-@section('title', 'Produtos - Lanchonete Delícia')
 <div class="row">
     <div class="col-md-6">
         <img src="{{ asset($produto->imagem ?: 'storage/image/lanche.jpg') }}" 
@@ -10,10 +12,17 @@
         <p class="text-muted">Categoria: {{ $produto->categoria->nome }}</p>
         <p>{{ $produto->descricao }}</p>
         
+        @if($produto->ingredientes->count() > 0)
+            <h5>Ingredientes:</h5>
+            <ul>
+                @foreach($produto->ingredientes as $ingrediente)
+                    <li>{{ $ingrediente->nome }}</li>
+                @endforeach
+            </ul>
+        @endif
         <div class="mt-4">
             <h3 class="text-primary" id="preco-total">R$ {{ number_format($produto->preco, 2, ',', '.') }}</h3>
             <p class="text-muted">Estoque: {{ $produto->estoque }}</p>
-            
             <form action="{{ route('carrinho.adicionar', $produto->id) }}" method="POST" class="mt-3">
                 @csrf
                 <div class="row">
@@ -31,26 +40,4 @@
         </div>
     </div>
 </div>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const precoBase = {{ $produto->preco }};
-    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-    const precoTotal = document.getElementById('preco-total');
-    
-    function atualizarPreco() {
-        let total = precoBase;
-        checkboxes.forEach(checkbox => {
-            if (checkbox.checked) {
-                total += parseFloat(checkbox.dataset.preco);
-            }
-        });
-        precoTotal.textContent = 'R$ ' + total.toFixed(2).replace('.', ',');
-    }
-    
-    checkboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', atualizarPreco);
-    });
-});
-</script>
 @endsection

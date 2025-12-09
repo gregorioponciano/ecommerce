@@ -20,8 +20,8 @@ class HomeController extends Controller
 
     public function produto($id)
     {
-        $produto = Produto::with(['categoria', 'ingredientes', 'adicionais'])->findOrFail($id);
-        return view('produto', compact('produto'));
+        $produto = Produto::with(['categoria'])->findOrFail($id);
+        return view('detalhes', compact('produto'));
     }
 
     public function buscar(Request $request)

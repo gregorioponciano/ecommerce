@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', 'Buscar - Lanchonete Delícia')
 @section('content')
 <h1 class="mb-4">Resultados da busca: "{{ $termo }}"</h1>
 

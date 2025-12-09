@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', 'Meus Pedidos - Lanchonete Delícia')
 @section('content')
 <h1 class="mb-4">Meus Pedidos</h1>
 

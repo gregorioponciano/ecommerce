@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+@section('title', 'Home - Lanchonete Delícia')
 @section('content')
 <div class="row mb-4">
     <div class="col-12">
@@ -42,16 +42,17 @@
                     foreach($categorias as $categoria) {
                         if($categoria->produtos->count() > 0) {
                             $allProducts = $allProducts->merge($categoria->produtos);
+                            
                         }
                     }
+                    
                 @endphp
                 
                 @if($allProducts->count() > 0)
                     @foreach($allProducts as $produto)
                         <div class="col-md-3 mb-4">
                             <div class="card h-100">
-                                <img src="{{ asset($produto->imagem ?: 'storage/image/lanche.jpg') }}" 
-                                     class="card-img-top produto-img" alt="{{ $produto->nome }}">
+                                <img src="{{ asset($produto->imagem ?: 'storage/image/lanche.jpg') }}" alt="{{ $produto->nome }}">
                                 <div class="card-body d-flex flex-column">
                                     <h5 class="card-title">{{ $produto->nome }}</h5>
                                     <p class="card-text flex-grow-1">{{ Str::limit($produto->descricao, 100) }}</p>
@@ -61,16 +62,13 @@
                                         <form action="{{ route('carrinho.adicionar', $produto->id) }}" method="POST">
                                             @csrf
                                             <div class="input-group mb-2">
-                                                <input type="number" name="quantidade" value="1" min="1" max="{{ $produto->estoque }}" 
-                                                       class="form-control" required>
+                                                <input type="number" name="quantidade" value="1" min="1" max="{{ $produto->estoque }}" class="form-control" required>
                                             </div>
                                             <button type="submit" class="btn btn-success w-100">
                                                 <i class="fas fa-cart-plus"></i> Adicionar
                                             </button>
                                         </form>
-                                        <a href="{{ route('produto', $produto->id) }}" class="btn btn-outline-primary w-100 mt-2">
-                                            Ver Detalhes
-                                        </a>
+                                        <a href="{{ route('produto', $produto->id) }}" class="btn btn-outline-primary w-100 mt-2">Ver Detalhes</a>
                                     </div>
                                 </div>
                             </div>
